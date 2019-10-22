@@ -17,6 +17,7 @@ public class Logic {
     private final Figure[] figures;
     private int index = 0;
 
+
     public Logic(int size) {
         this.size = size;
         this.figures = new Figure[size * size];
@@ -71,6 +72,28 @@ public class Logic {
     public boolean isWin() {
         int[][] table = this.convert();
         boolean result = false;
+        int horisontal = 0;
+        int vertical = 0;
+        for (int i = 0; i < table.length; i++) {
+            //Находим первую 1 по диагонали
+                if (table[i][i] == 1) {
+                    for (int j = 0; j < table.length; j++) {
+                        //Проверяем строку на наличие 1
+                        if (table[i][j] == 1) {
+                            horisontal++;
+                            //Проверяем столбец на наличие 1
+                        } if (table[j][i] == 1) {
+                            vertical++;
+                        }
+                    }
+                    //Если кол-во 1 по вертикали или горизонтали = 5 - игра выиграна
+                    if (vertical == table.length || horisontal == table.length) {
+                        result = true;
+                        break;
+                    }
+                    break;
+                }
+            }
         return result;
     }
 
