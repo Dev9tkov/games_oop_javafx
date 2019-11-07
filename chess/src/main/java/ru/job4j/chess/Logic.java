@@ -1,5 +1,6 @@
 package ru.job4j.chess;
 
+import ru.job4j.chess.exceptions.CellIsBusyException;
 import ru.job4j.chess.firuges.Cell;
 import ru.job4j.chess.firuges.Figure;
 
@@ -21,15 +22,26 @@ public class Logic {
         this.figures[this.index++] = figure;
     }
 
-    public boolean move(Cell source, Cell dest) {
+    public boolean move(Cell source, Cell dest) throws CellIsBusyException {
         boolean rst = false;
         int index = this.findBy(source);
-        if (index != -1) {
-            Cell[] steps = this.figures[index].way(source, dest);
-            if (steps.length > 0 && steps[steps.length - 1].equals(dest)) {
-                rst = true;
-                this.figures[index] = this.figures[index].copy(dest);
+        int destination = this.findBy(dest);
+        try {
+            if (index != -1) {
+                Cell[] steps = this.figures[index].way(source, dest);
+                for (int i = 0; i < steps.length; i++) {
+                    int free = findBy(steps[i]);
+                    if (free == -1 || destination == -1) {
+                        throw new CellIsBusyException("This cell is busy");
+                    }
+                }
+                if (steps.length > 0 && steps[steps.length - 1].equals(dest)) {
+                    rst = true;
+                    this.figures[index] = this.figures[index].copy(dest);
+                }
             }
+        } catch (CellIsBusyException cie) {
+            System.out.println(cie.getMessage());
         }
         return rst;
     }

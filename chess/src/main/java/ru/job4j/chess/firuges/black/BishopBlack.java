@@ -22,27 +22,41 @@ public class BishopBlack implements Figure {
 
     @Override
     public Cell[] way(Cell source, Cell dest) {
-        throw new IllegalStateException(
-                String.format("Could not way by diagonal from %s to %s", source, dest)
-        );
-//        if (!isDiagonal(source, dest)) {
-//            throw new IllegalStateException(
-//                    String.format("Could not way by diagonal from %s to %s", source, dest)
-//            );
-//        }
-//        int size = ...;
-//        Cell[] steps = new Cell[size];
-//        int deltaX = ...;
-//        int deltaY = ...;
-//        for (int index = 0; index < size; index++) {
-//            steps[index] = ...
-//        }
-//        return steps;
+        if (!isDiagonal(source, dest)) {
+            throw new IllegalStateException(
+                    String.format("Could not way by diagonal from %s to %s", source, dest)
+            );
+        }
+
+        int size = Math.abs(dest.x - source.x);
+        Cell[] steps = new Cell[size];
+        int deltaX = source.x;
+        int deltaY = source.y;
+        for (int index = 0; index < size; index++) {
+            if (source.x > dest.x) {
+                deltaX--;
+            } else {
+                deltaX++;
+            }
+            if (source.y > dest.y) {
+                deltaY--;
+            } else {
+                deltaY++;
+            }
+            steps[index] = Cell.findBy(deltaX, deltaY);
+            //steps[index] = Cell.values()[8 * deltaX + deltaY];
+        }
+        return steps;
     }
 
     public boolean isDiagonal(Cell source, Cell dest) {
-        //TODO check diagonal
-        return false;
+        boolean result = false;
+        int raznicax = Math.abs(dest.x - source.x);
+        int raznicay = Math.abs(dest.y - source.y);
+        if (raznicax == raznicay) {
+            result = true;
+        }
+        return result;
     }
 
     @Override
