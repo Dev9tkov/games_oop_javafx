@@ -3,6 +3,9 @@ package ru.job4j.chess.firuges;
 public interface Figure {
     Cell position();
 
+    /**
+     * Массив с клетками, которые должна пройти фигура от клетки source до клетки dest
+     */
     Cell[] way(Cell source, Cell dest);
 
     default String icon() {
@@ -11,5 +14,8 @@ public interface Figure {
         );
     }
 
+    /**
+     *  Объект класса с позицией dest. Каждый раз новая фигура
+     */
     Figure copy(Cell dest);
 }

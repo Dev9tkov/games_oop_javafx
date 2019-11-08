@@ -22,6 +22,10 @@ public class Logic {
         this.figures[this.index++] = figure;
     }
 
+    /**
+     * Метод проверяет есть ли на пути фигуры другие фигуры при помощи @findby в каждой клетке
+     * пути way. Если фигура есть-выдает ошибку
+     */
     public boolean move(Cell source, Cell dest) throws CellIsBusyException {
         boolean rst = false;
         int index = this.findBy(source);
@@ -29,9 +33,8 @@ public class Logic {
         try {
             if (index != -1) {
                 Cell[] steps = this.figures[index].way(source, dest);
-                for (int i = 0; i < steps.length; i++) {
-                    int free = findBy(steps[i]);
-                    if (free == -1 || destination == -1) {
+                for (Cell step: steps) {
+                    if (findBy(step) != -1 || destination != -1) {
                         throw new CellIsBusyException("This cell is busy");
                     }
                 }
@@ -40,7 +43,8 @@ public class Logic {
                     this.figures[index] = this.figures[index].copy(dest);
                 }
             }
-        } catch (CellIsBusyException cie) {
+        }
+        catch (CellIsBusyException cie) {
             System.out.println(cie.getMessage());
         }
         return rst;

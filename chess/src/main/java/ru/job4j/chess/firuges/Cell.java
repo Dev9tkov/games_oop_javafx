@@ -18,6 +18,12 @@ public enum Cell {
         this.y = y;
     }
 
+    /**
+     * Находим адрес клетки по известным координатам
+     * @param x
+     * @param y
+     * @return
+     */
     public static Cell findBy(int x, int y) {
         for(Cell c : Cell.values()) {
             if(c.x == x && c.y == y) {

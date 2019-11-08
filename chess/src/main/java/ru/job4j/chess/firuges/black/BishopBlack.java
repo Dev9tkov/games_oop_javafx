@@ -20,14 +20,23 @@ public class BishopBlack implements Figure {
         return this.position;
     }
 
+    /**
+     * Метод возвращает массив из клеток пути.
+     * @param source начальная клетка
+     * @param dest конечная клетка
+     * @return
+     */
     @Override
     public Cell[] way(Cell source, Cell dest) {
-        if (!isDiagonal(source, dest)) {
-            throw new IllegalStateException(
-                    String.format("Could not way by diagonal from %s to %s", source, dest)
-            );
+        try {
+            if (!isDiagonal(source, dest)) {
+                throw new IllegalStateException(
+                        String.format("Could not way by diagonal from %s to %s", source, dest)
+                );
+            }
+        } catch (IllegalStateException ise) {
+            System.out.println(ise.getMessage());
         }
-
         int size = Math.abs(dest.x - source.x);
         Cell[] steps = new Cell[size];
         int deltaX = source.x;
@@ -49,6 +58,12 @@ public class BishopBlack implements Figure {
         return steps;
     }
 
+    /**
+     * Проверяет, является ли диагональю линия от начальной точки к конечной
+     * @param source начальная клетка
+     * @param dest конечная клетка
+     * @return
+     */
     public boolean isDiagonal(Cell source, Cell dest) {
         boolean result = false;
         int raznicax = Math.abs(dest.x - source.x);
