@@ -39,21 +39,20 @@ public class BishopBlack implements Figure {
         }
         int size = Math.abs(dest.x - source.x);
         Cell[] steps = new Cell[size];
-        int deltaX = source.x;
-        int deltaY = source.y;
+        int deltaX;
+        int deltaY;
+        if (source.x > dest.x) {
+            deltaX = -1;
+        } else {
+            deltaX = 1;
+        }
+        if (source.y > dest.y) {
+            deltaY = -1;
+        } else {
+            deltaY = 1;
+        }
         for (int index = 0; index < size; index++) {
-            if (source.x > dest.x) {
-                deltaX--;
-            } else {
-                deltaX++;
-            }
-            if (source.y > dest.y) {
-                deltaY--;
-            } else {
-                deltaY++;
-            }
-            steps[index] = Cell.findBy(deltaX, deltaY);
-            //steps[index] = Cell.values()[8 * deltaX + deltaY];
+            steps[index] = Cell.findBy(source.x + (deltaX * (index + 1)) , source.y + (deltaY * (index + 1)));
         }
         return steps;
     }
