@@ -19,10 +19,18 @@ public class Figure3T extends Rectangle {
             this.markO = !markX;
     }
 
+    /**
+     * Имеет ли клетка X
+     * @return
+     */
     public boolean hasMarkX() {
         return this.markX;
     }
 
+    /**
+     * Имеет ли клетка O
+     * @return
+     */
     public boolean hasMarkO() {
         return this.markO;
     }
