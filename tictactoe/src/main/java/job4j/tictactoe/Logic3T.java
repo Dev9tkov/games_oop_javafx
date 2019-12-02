@@ -28,7 +28,7 @@ public class Logic3T {
         boolean result = false;
         if (this.fillBy(predicate, 0, 0, 1, 0) ||//нижняя строка
                 this.fillBy(predicate, 0, 0, 0, 1) ||//левый столбец
-                this.fillBy(predicate, 0,0, 1, 1) ||//диагональ с лева на право
+                this.fillBy(predicate, 0, 0, 1, 1) ||//диагональ с лева на право
                 this.fillBy(predicate, this.table.length - 1, 0, -1, 1) ||//диагональ с права на лево
                 this.fillBy(predicate, this.table.length - 1 , this.table.length - 1, -1, 0) ||//верхняя строка
                 this.fillBy(predicate, 0 , (this.table.length - 1) / 2, 1, 0) ||//средняя строка
@@ -48,20 +48,12 @@ public class Logic3T {
     }
 
     public boolean hasGap() {
-        int cells = (int) Math.pow(table.length, 2);
-        int count = 0;
-        boolean result = true;
-        for (int i = 0; i < table.length; i++) {
+        boolean result = false;
+        for (int i = 0; i < table.length && !result; i++) {
             for (int j = 0; j < table.length; j++) {
-                if (table[i][j].hasMarkX() || table[i][j].hasMarkO()) {
-                    count++;
+                if (!table[i][j].hasMarkX() || !table[i][j].hasMarkO()) {
+                    result = true;
                 }
-            }
-            if (count != cells) {
-                result = true;
-                break;
-            } else {
-                result = false;
             }
         }
         return result;
