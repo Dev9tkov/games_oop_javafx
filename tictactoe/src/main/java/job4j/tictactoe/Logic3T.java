@@ -24,26 +24,27 @@ public class Logic3T {
         return result;
     }
 
+    public boolean isWin(Predicate<Figure3T> predicate) {
+        boolean result = false;
+        if (this.fillBy(predicate, 0, 0, 1, 0) ||//нижняя строка
+                this.fillBy(predicate, 0, 0, 0, 1) ||//левый столбец
+                this.fillBy(predicate, 0,0, 1, 1) ||//диагональ с лева на право
+                this.fillBy(predicate, this.table.length - 1, 0, -1, 1) ||//диагональ с права на лево
+                this.fillBy(predicate, this.table.length - 1 , this.table.length - 1, -1, 0) ||//верхняя строка
+                this.fillBy(predicate, 0 , (this.table.length - 1) / 2, 1, 0) ||//средняя строка
+                this.fillBy(predicate, this.table.length - 1 , this.table.length - 1, 0, -1) ||//правый столбец
+                this.fillBy(predicate, (this.table.length - 1) / 2 , 0, 0, 1)) {//средний столбец
+            result = true;
+        }
+        return result;
+    }
+
     public boolean isWinnerX() {
-        return this.fillBy(Figure3T::hasMarkX, 0, 0, 1, 0) || //нижняя строка
-                this.fillBy(Figure3T::hasMarkX, 0, 0, 0, 1) || //левый столбец
-                this.fillBy(Figure3T::hasMarkX, 0,0, 1, 1) || //диагональ с лева на право
-                this.fillBy(Figure3T::hasMarkX, this.table.length - 1 , 0, -1, 1) || //диагональ с права на лево
-                this.fillBy(Figure3T::hasMarkX, this.table.length - 1 , this.table.length - 1, -1, 0) || //верхняя строка
-                this.fillBy(Figure3T::hasMarkX, 0 , (this.table.length - 1) / 2, 1, 0) || //средняя строка
-                this.fillBy(Figure3T::hasMarkX, this.table.length - 1 , this.table.length - 1, 0, -1) || //правый столбец
-                this.fillBy(Figure3T::hasMarkX, (this.table.length - 1) / 2 , 0, 0, 1); //средний столбец
+        return isWin(Figure3T::hasMarkX);
     }
 
     public boolean isWinnerO() {
-        return this.fillBy(Figure3T::hasMarkO, 0, 0, 1, 0) ||
-                this.fillBy(Figure3T::hasMarkO, 0, 0, 0, 1) ||
-                this.fillBy(Figure3T::hasMarkO, 0,0, 1, 1) ||
-                this.fillBy(Figure3T::hasMarkO, this.table.length - 1, 0, -1, 1) ||
-                this.fillBy(Figure3T::hasMarkO, this.table.length - 1 , this.table.length - 1, -1, 0) ||
-                this.fillBy(Figure3T::hasMarkO, 0 , (this.table.length - 1) / 2, 1, 0) ||
-                this.fillBy(Figure3T::hasMarkO, this.table.length - 1 , this.table.length - 1, 0, -1) ||
-                this.fillBy(Figure3T::hasMarkO, (this.table.length - 1) / 2 , 0, 0, 1);
+        return isWin(Figure3T::hasMarkO);
     }
 
     public boolean hasGap() {
@@ -56,7 +57,10 @@ public class Logic3T {
                     count++;
                 }
             }
-            if (count == cells) {
+            if (count != cells) {
+                result = true;
+                break;
+            } else {
                 result = false;
             }
         }
